@@ -12,6 +12,9 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "markdown.markdownItPlugins": true,
+    "markdown.previewStyles": ["./styles/github-style.css"],
+    "markdown.previewScripts": ["./scripts/preview.js"],
     "commands": [
       {
         "command": "helloworld.helloWorld",
@@ -26,6 +29,9 @@
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test"
+  },
+  "dependencies": {
+    "markdown-it-container": "^4.0.0"
   },
   "devDependencies": {
     "@types/vscode": "^1.109.0",
