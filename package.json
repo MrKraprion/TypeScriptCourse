@@ -1,20 +1,26 @@
 {
   "name": "helloworld",
-  "displayName": "TypeScript",
-  "description": "",
+  "displayName": "My Markdown Extension",
+  "description": "Custom Markdown styles, syntax and interactivity",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.109.0"
+    "vscode": "^1.80.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "markdown.markdownItPlugins": true,
-    "markdown.previewStyles": ["./styles/github-style.css"],
-    "markdown.previewScripts": ["./scripts/preview.js"],
+    "markdown.previewStyles": [
+      "./styles/github-style.css"
+    ],
+    "markdown.previewScripts": [
+      "./scripts/preview.js"
+    ],
     "commands": [
       {
         "command": "helloworld.helloWorld",
@@ -34,7 +40,7 @@
     "markdown-it-container": "^4.0.0"
   },
   "devDependencies": {
-    "@types/vscode": "^1.109.0",
+    "@types/vscode": "^1.80.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "typescript-eslint": "^8.54.0",

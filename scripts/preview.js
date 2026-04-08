@@ -1,9 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.spoiler details').forEach(details => {
-    details.addEventListener('toggle', () => {
-      if (details.open) {
-        details.style.animation = 'fadeIn 0.5s';
-      }
-    });
-  });
+	// Ищем все элементы <details> с классом .spoiler
+	const spoilers = document.querySelectorAll('details.spoiler');
+
+	spoilers.forEach(details => {
+		details.addEventListener('toggle', () => {
+			if (details.open) {
+				// Сбрасываем анимацию, чтобы она проигралась заново
+				details.classList.remove('fade-in-animation');
+				
+				// Магия для перезапуска CSS анимации (force reflow)
+				void details.offsetWidth; 
+				
+				// Добавляем класс анимации
+				details.classList.add('fade-in-animation');
+			}
+		});
+	});
+	
+	console.log('Custom Markdown Preview Scripts Loaded');
 });

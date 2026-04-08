@@ -1,46 +1,64 @@
 import * as vscode from 'vscode';
-// @ts-ignore
+// @ts-ignore - игнорируем ошибку типов для markdown-it-container, так как у него нет строгих типов TS
 import markdownItContainer from 'markdown-it-container';
-// This method is called when your extension is activated
+
+/**
+ * Эта функция вызывается при активации расширения.
+ * Мы возвращаем объект с методом extendMarkdownIt, чтобы внедрить наши плагины.
+ */
 export function activate(context: vscode.ExtensionContext) {
 
-	console.log('Congratulations, your extension "helloworld" is now active!');
+	console.log('Extension "helloworld" is now active!');
 
-	// Сохраняем原有ную команду
+	// 1. Регистрируем стандартную команду Hello World (можно использовать через палитру команд)
 	const disposable = vscode.commands.registerCommand('helloworld.helloWorld', () => {
 		vscode.window.showInformationMessage('Hello World from TypeScript!');
 	});
 
 	context.subscriptions.push(disposable);
 
-	// Возвращаем объект для расширения Markdown
+	// 2. Возвращаем API для расширения Markdown
 	return {
 		extendMarkdownIt(md: any) {
-			// :::alert Текст :::
+			
+			// --- Настройка :::alert ---
+			// Пример использования в MD:
+			// :::alert
+			// Текст предупреждения
+			// :::
 			md.use(markdownItContainer, 'alert', {
-				validate: () => true,
+				validate: (params: string) => {
+					return params.trim().match(/^alert\s*(.*)$/);
+				},
 				render: (tokens: any, idx: number) => {
 					if (tokens[idx].nesting === 1) {
-						const content = tokens[idx].info.trim().replace(/^alert\s*/, '');
-						return `<div class="alert">${content ? content + '<br>' : ''}`;
+						return '<div class="alert">\n';
 					} else {
 						return '</div>\n';
 					}
 				}
 			});
 
-			// ???spoiler "Заголовок"
+			// --- Настройка :::spoiler ---
+			// Пример использования в MD:
+			// :::spoiler "Мой заголовок"
+			// Скрытый текст
+			// :::
 			md.use(markdownItContainer, 'spoiler', {
-				marker: '?',
-				validate: (params: string) => params.trim().startsWith('spoiler'),
+				validate: (params: string) => {
+					return params.trim().match(/^spoiler\s*(.*)$/);
+				},
 				render: (tokens: any, idx: number) => {
 					if (tokens[idx].nesting === 1) {
+						// Извлекаем заголовок из строки параметров
 						const params = tokens[idx].info.trim();
-						const match = params.match(/spoiler\s*(.*)/);
-						let title = match?.[1]?.trim() || 'Спойлер';
-						// Убираем внешние кавычки, если есть
+						const match = params.match(/^spoiler\s*(.*)$/);
+						let title = match && match[1] ? match[1].trim() : 'Нажмите, чтобы раскрыть';
+						
+						// Убираем кавычки, если они есть
 						title = title.replace(/^["'](.*)["']$/, '$1');
-						return `<details class="spoiler"><summary>${title}</summary>`;
+
+						return `<details class="spoiler"><summary>${title}</summary>\n`;
 					} else {
 						return '</details>\n';
 					}
@@ -52,5 +70,8 @@ export function activate(context: vscode.ExtensionContext) {
 	};
 }
 
-// This method is called when your extension is deactivated
+/**
+ * Эта функция вызывается, когда расширение деактивируется (выключается).
+ * Сейчас она пустая, так как нам не нужно очищать ресурсы.
+ */
 export function deactivate() {}
