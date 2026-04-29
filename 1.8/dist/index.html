@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="ru"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Image App (TS)</title>
+    
+    <!-- Стили Cropper.js через CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    
+    <!-- Наши стили -->
+    <link rel="stylesheet" href="/1.8.3a01df49.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Приложение для обрезки фото (TS)</h1>
+
+        <div class="upload-section">
+            <input type="file" id="imageInput" accept="image/*">
+        </div>
+
+        <div class="editor-container" style="display: none">
+            <div class="image-wrapper">
+                <img id="image" alt="Source Image">
+            </div>
+            
+            <div class="controls">
+                <button id="cropBtn">✂️ Обрезать</button>
+                <button id="downloadBtn" disabled=""> Скачать результат</button>
+            </div>
+        </div>
+
+        <div class="result-container" style="display: none">
+            <h3>Результат:</h3>
+            <div class="result-wrapper">
+                <img id="croppedImage" alt="Cropped Image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключаем TS файл -->
+    <script type="module" src="/1.8.7a14eeb4.js"></script>
+
+</body></html>
